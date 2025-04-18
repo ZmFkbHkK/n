@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hosting="https://pub-d1c38d58900940988be712cefd14960b.r2.dev/xd/"
+hosting="https://raw.githubusercontent.com/ZmFkbHkK/n/main/"
 
 if [[ -d "/ws" ]]; then
     rm -rf /ws
