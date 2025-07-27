@@ -1,4 +1,5 @@
 #!/bin/bash
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 # initialisasi var
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
@@ -23,12 +24,6 @@ cp /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so /usr/lib
 
 # nano /etc/default/openvpn
 sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
-
-# restart openvpn dan cek status openvpn
-systemctl enable --now openvpn-server@server-tcp-1194
-systemctl enable --now openvpn-server@server-udp-2200
-/etc/init.d/openvpn restart
-/etc/init.d/openvpn status
 
 # aktifkan ip4 forwarding
 echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -295,6 +290,11 @@ elif command -v iptables &> /dev/null; then
     iptables-save > /etc/iptables.up.rules
 fi
 
+# restart openvpn dan cek status openvpn
+systemctl enable --now openvpn-server@server-tcp-1194
+systemctl enable --now openvpn-server@server-udp-2200
+/etc/init.d/openvpn restart
+/etc/init.d/openvpn status
 
 # Delete script
 history -c
